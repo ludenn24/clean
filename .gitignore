@@ -1,0 +1,15 @@
+.idea/
+nbproject/
+.vscode/
+/coverage/
+/vendor/
+/logs/*
+!/logs/README.md
+.phpunit.result.cache
+settings.php
+<<<<<<< HEAD
+/cache/
+public/filesOKM/*
+=======
+/cache/
+>>>>>>> a025422d1fe255942a1f9da6fd057bb7f963631e
