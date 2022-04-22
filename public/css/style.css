@@ -1680,7 +1680,7 @@ p {
 }
 
 .banner-area-3 .banner-overlay {
-    background-color: rgba(0, 16, 52, .9);
+    background-color: rgb(0 16 52 / 45%);
     height: 900px;
     position: relative;
     z-index: 10;
@@ -4416,12 +4416,11 @@ p {
 }
 
 .features-area .features-item ul li a {
-    background: #0c59db;
+    background: #f7c355;
     border-radius: 0;
     color: #fff;
     margin-right: 20px;
-    border-color: #0c59db
-}
+    border-color: #f7c355;}
 
 @media (max-width: 767px) {
     .features-area .features-item ul li a {
@@ -4593,8 +4592,7 @@ p {
 .choose-area {
     padding-top: 113px;
     padding-bottom: 120px;
-    background: #f5f7ff
-}
+    background: #f7fbff;}
 
 .choose-area .section-title .title {
     padding-bottom: 25px
@@ -4710,7 +4708,7 @@ p {
     content: '';
     width: 0;
     height: 0;
-    border-bottom: 370px solid #0c59db;
+    border-bottom: 370px solid #f7c355;
     border-left: 370px solid transparent;
     z-index: -1;
     right: -20px;
@@ -9622,7 +9620,7 @@ nav .pagination.pagination-2 li a.active {
 
 .services-title-area {
     margin-top: -235px;
-    background: #0c59db;
+    background: #0063d6;
     height: 535px;
     margin-left: 70px;
     margin-right: 70px
@@ -10559,7 +10557,7 @@ nav .pagination.pagination-2 li a.active {
 
 .contact-us-area .contact-overlay .contact-details .contact-form-area .input-title .title {
     font-size: 40px;
-    color: #232323;
+    color: #004976;
     line-height: 50px;
     padding-right: 40px
 }
@@ -10634,10 +10632,9 @@ nav .pagination.pagination-2 li a.active {
     line-height: 60px;
     padding: 0 40px;
     font-size: 15px;
-    background: #0c59db;
-    color: #fff;
-    border-color: #0c59db
-}
+    background: #f7c355;
+    color: #000;
+    border-color: #f7c355;}
 
 .contact-us-area .contact-overlay .contact-details .contact-form-area .input-box button i {
     padding-left: 5px
