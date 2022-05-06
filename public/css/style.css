@@ -42,7 +42,7 @@ i, span, a {
 h1, h2, h3, h4, h5, h6 {
     font-family: gilroybold;
     font-weight: 700;
-    color: #002249;
+    color: #004976;
     margin: 0
 }
 
@@ -137,7 +137,7 @@ p {
 }
 
 .section-title span {
-    color: #0c59db;
+    color: #00bbee;
     font-size: 16px;
     text-transform: uppercase;
     font-weight: 700;
@@ -463,9 +463,8 @@ p {
 @media (max-width: 767px) {
     .header-nav .navigation {
         top: 80px;
-        padding-left: 0;
-        padding-right: 0
-    }
+        padding-left: 30px;
+        padding-right: 30px;}
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
@@ -483,11 +482,16 @@ p {
     background: #fff;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, .04);
     z-index: 999;
-    animation: sticky .4s
+    animation: sticky .4s;
 }
 
 .header-nav .navigation.sticky .navbar .navbar-nav .nav-item a {
-    line-height: 80px
+    line-height: 80px;
+    color: #004976;
+}
+
+.header-area-2.header-area-3 .header-nav .navigation.sticky .navbar .navbar-btn a {
+    background-color: #0c59db;
 }
 
 .header-nav .navigation .navbar {
@@ -589,7 +593,7 @@ p {
     font-size: 16px;
     font-weight: 700;
     padding: 0 30px;
-    color: #4f79a9;
+    color: #ffffff;
     text-transform: uppercase;
     position: relative;
     -webkit-transition: all .3s ease-out 0s;
@@ -1080,7 +1084,6 @@ p {
     line-height: 100px;
     padding-right: 55px !important;
     padding: 0;
-    color: #fff
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
@@ -1113,15 +1116,18 @@ p {
     border-radius: 6px
 }
 
+
+
 .header-area-2.header-area-3 .header-nav .navigation .navbar .navbar-btn a:hover {
-    background: #0c59db;
-    border-color: #0c59db
-}
+    background: #fdd816;
+    border-color: #fdd816;color: black;}
 
 .header-area-2.header-area-3 .header-nav .navigation.sticky {
     top: 0;
-    background: #002249
+    background: #ffffff;box-shadow: 0px 3px 3px 0px rgb(218 217 214);color: white;
 }
+
+.navigation.sticky {}
 
 .header-area-2.header-area-4 .header-top {
     background: #fff;
@@ -1698,7 +1704,7 @@ p {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 30%;
     z-index: -1
 }
 
@@ -1706,7 +1712,7 @@ p {
     position: absolute;
     top: 0;
     right: 0;
-    width: 33%;
+    width: 20%;
     z-index: -1
 }
 
@@ -3094,7 +3100,7 @@ p {
 .footer-area .widget-item-2 .title {
     text-transform: capitalize;
     font-weight: 700;
-    font-size: 34px;
+    font-size: 26px;
     margin-top: -8px;
     padding-bottom: 17px
 }
@@ -3141,7 +3147,7 @@ p {
 
 .footer-area .widget-item-2.widget-item-3 ul li {
     line-height: 36px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400
 }
 
@@ -3175,8 +3181,7 @@ p {
 .footer-area .widget-item-2.widget-item-3 a {
     margin-top: 8px;
     color: #81a3bb;
-    font-weight: 700
-}
+    /* font-weight: 700; */}
 
 .footer-area .widget-item-2.widget-item-3 a i {
     padding-right: 6px
@@ -3237,8 +3242,7 @@ p {
 }
 
 .footer-area.footer-area-2 .footer-overlay .widget-item-2.widget-item-3 a {
-    color: #0c59db
-}
+    color: #c2d1e2;}
 
 .footer-area.footer-area-2 .footer-copyright {
     border-top: 1px solid rgba(255, 255, 255, .2)
@@ -3921,6 +3925,16 @@ p {
     color: #c1d0de
 }
 
+.contact-form-area .service-select {
+    display: inline-block;
+    width: 100%;
+    border-top: 0px solid #ccc;
+    border-right: 0px solid #ccc;border-left: 0px solid #ccc;border-radius: 0px;border-bottom: 2px #e3eeff solid;
+
+    color: #6a6183;
+    margin-right: 30px;
+    font-size: 17px;padding-left: 0px;}
+
 .quote-area .quote-overlay .quote-form .input-box input::placeholder {
     opacity: 1;
     color: #c1d0de
@@ -4404,8 +4418,7 @@ p {
 }
 
 .features-area .features-item p {
-    color: #69a1bb
-}
+    color: #004976;}
 
 .features-area .features-item ul {
     margin-top: 35px
@@ -4416,11 +4429,11 @@ p {
 }
 
 .features-area .features-item ul li a {
-    background: #f7c355;
+    background: #fdd816;
     border-radius: 0;
-    color: #fff;
+    color: #000;
     margin-right: 20px;
-    border-color: #f7c355;}
+    border-color: #fdd816;}
 
 @media (max-width: 767px) {
     .features-area .features-item ul li a {
@@ -4445,7 +4458,7 @@ p {
 }
 
 .features-area .features-item ul li a.main-btn-2 {
-    background: #b7c3d6;
+    background: #a8adb5;
     border-color: #b7c3d6
 }
 
@@ -4708,7 +4721,7 @@ p {
     content: '';
     width: 0;
     height: 0;
-    border-bottom: 370px solid #f7c355;
+    border-bottom: 370px solid #fdd816;
     border-left: 370px solid transparent;
     z-index: -1;
     right: -20px;
@@ -9620,7 +9633,7 @@ nav .pagination.pagination-2 li a.active {
 
 .services-title-area {
     margin-top: -235px;
-    background: #0063d6;
+    background: #0c59db;
     height: 535px;
     margin-left: 70px;
     margin-right: 70px
@@ -9831,7 +9844,7 @@ nav .pagination.pagination-2 li a.active {
 
 .latest-services-area {
     margin-bottom: 65px;
-    margin-top: -215px;
+    margin-top: -200px;
     position: relative;
     z-index: 10
 }
@@ -10443,8 +10456,7 @@ nav .pagination.pagination-2 li a.active {
 
 .contact-us-area .contact-overlay {
     padding-top: 112px;
-    background-color: rgba(12, 90, 219, .9)
-}
+    background-color: rgb(12 89 219 / 80%);}
 
 .contact-us-area .contact-overlay .section-title span {
     color: #fff;
@@ -10485,7 +10497,7 @@ nav .pagination.pagination-2 li a.active {
 
 .contact-us-area .contact-overlay .contact-details {
     background: #fff;
-    box-shadow: 0 16px 32px 0 rgba(228, 228, 228, .56);
+    box-shadow: 0 16px 32px 0px #00497614;
     padding: 60px;
     margin-bottom: -165px
 }
@@ -10632,9 +10644,9 @@ nav .pagination.pagination-2 li a.active {
     line-height: 60px;
     padding: 0 40px;
     font-size: 15px;
-    background: #f7c355;
+    background: #fdd816;
     color: #000;
-    border-color: #f7c355;}
+    border-color: #fdd816;}
 
 .contact-us-area .contact-overlay .contact-details .contact-form-area .input-box button i {
     padding-left: 5px

@@ -1,525 +1,96 @@
-<
-    ? php
-    include
-'Clases/cls_menu_category.php';
-include
-'Clases/cls_menu_item.php';
+(function($) {
+    "use strict";
 
-$category = new Cls_MenuCategory();
-$c = $category->getMenuCategory();
-$posicion = @$_REQUEST['pos'];
-$formulario = @$_REQUEST['form'];
-    ?
->
-<
-section
-class
-= "sidebar" >
-    < !--Sidebar
-user
-panel-- >
-< div
-class
-= "user-panel" >
-    < div
-class
-= "pull-left image" >
-    < img
-src = "dist/img/logini.jpg"
-class
-= "img-circle"
-alt = "User Image" >
-    < /div>
-    < div
-class
-= "pull-left info" >
-< p > < ? php echo
-$_SESSION['ses_nombreuser'];
-    ?
-><
-/p>
-< p > < a
-href = ""
-target = "_blank" > Ir
-a
-la
-web < /a></
-p >
-< /div>
-< /div>
-<!-- sidebar menu: : style can be found in sidebar.less -->
-< ul
-class
-= "sidebar-menu" >
-    < li
-class
-= "header" > Menú
-Navegación < /li>
+    var tpj = jQuery;
+    var revapi24;
 
-< !--
-< ? php
-for ($i = 0; $i < sizeof($c); $i++) {
-    $item = new Cls_MenuItem();
-    $m = $item->getMenuItem($c[$i]['idcategory']);
-    if (count($m) > 0) {
-            ?
-    >
-    <
-        li
-    class
-        = "treeview <?php if($c[$i]['posicion']==$posicion){echo "
-        active
-        ";} ?>" >
-        < a
-        href = "#"
-        data - content = "raiz" >
-            < i
-    class
-        = "fa fa-files-o" > < /i>
-        < span > < ? php echo
-        $c[$i]['nombre'];
-            ?
-    ><
-        /span>
-        < span
-    class
-        = "label label-primary pull-right" > < ? php echo
-        sizeof($m) ?
-    ><
-        /span>
-        < /a>
-        < ul
-    class
-        =
-    <
-            ? php
-        if ($c[$i]['posicion'] == $posicion) {
-            echo
-            "'treeview-menu menu-open' style='display:block;'";
-        } else {
-            echo
-            "'treeview-menu' style='display:none;'";
+    //---- on ready function -----//
+    jQuery(document).ready(function($) {
+
+    /*--------------------------
+     counterdown
+    ---------------------------- */
+        function e() {
+            var e = new Date;
+            e.setDate(e.getDate() + 3);
+            var dd = e.getDate();
+            var mm = e.getMonth() + 1;
+            var y = e.getFullYear();
+            var futureFormattedDate = mm + "/" + dd + "/" + y + ' 12:00:00';
+            return futureFormattedDate;
         }
-            ?
-    >>
-    <
-            ? php
-        for ($x = 0; $x < sizeof($m); $x++) {
-                ?
-        >
-        <
-            li < ? php
-            if ($m[$x]['iditem'] == $formulario) {
-                echo
-                "class='activeli'";
+
+        //----- Contact Form Submition ------//
+        function checkRequire(formId , targetResp){
+            targetResp.html('');
+            var email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+            var url = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+            var image = /\.(jpe?g|gif|png|PNG|JPE?G)$/;
+            var mobile = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
+            var facebook = /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/;
+            var twitter = /^(https?:\/\/)?(www\.)?twitter.com\/[a-zA-Z0-9(\.\?)?]/;
+            var google_plus = /^(https?:\/\/)?(www\.)?plus.google.com\/[a-zA-Z0-9(\.\?)?]/;
+            var check = 0;
+            $('#er_msg').remove();
+            var target = (typeof formId == 'object')? $(formId):$('#'+formId);
+            target.find('input , textarea , select').each(function(){
+                if($(this).hasClass('require')){
+                    if($(this).val().trim() == ''){
+                        check = 1;
+                        $(this).focus();
+                        targetResp.html('<div class="alert alert-warning" role="alert">Debe completar este campo para continuar.</div>');
+                        $(this).addClass('error');
+                        return false;
+                    }else{
+                        $(this).removeClass('error');
+                    }
+                }
+                if($(this).val().trim() != ''){
+                    var valid = $(this).attr('data-valid');
+                    if(typeof valid != 'undefined'){
+                        if(!eval(valid).test($(this).val().trim())){
+                            $(this).addClass('error');
+                            $(this).focus();
+                            check = 1;
+                            targetResp.html('<div class="alert alert-warning" role="alert">'+$(this).attr('data-error')+'</div>');
+                            return false;
+                        }else{
+                            $(this).removeClass('error');
+                        }
+                    }
+                }
+            });
+            return check;
+        }
+
+        $(".submitForm").on("click", function() {
+            var _this = $(this);
+            var targetForm = _this.closest('form');
+            var errroTarget = targetForm.find('.response');
+            var check = checkRequire(targetForm , errroTarget);
+            if(check == 0){
+                var formData = new FormData($("#FormRegistro")[0]);
+                $.ajax({
+                    type : 'POST',
+                    url : 'registrar',
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                }).done(function(resp){
+                    if(resp.response == 'success'){
+                        targetForm.find('input').val('');
+                        targetForm.find('textarea').val('');
+                        errroTarget.html('<div class="alert alert-success" role="alert">Mensaje enviado correctamente.</div>');
+                    }else{
+                        errroTarget.html('<p style="color:red;">Algo salió mal, inténtenlo de nuevo.</p>');
+                    }
+                });
             }
-                ?
-        >>
-        <
-            a
-            href = "dbpanel.php?view=<?php echo $m[$x]['tag'] ?>&form=<?php echo $m[$x]['iditem'] ?>&pos=<?php echo $c[$i]['posicion'];?>"
-            style = "cursor:pointer;" >
-                < i
-        class
-            = "fa fa-newspaper-o" > < /i><span><?php echo $m[$x]['nombre'] ?></s
-            pan >
-            < /a>
-            < /li>
-            < ? php
-        }
-            ?
-    >
-    <
-        /ul>
-        < /li>
-        < ? php
-    }
-}
-    ?
->
--- >
-
-< li
-class
-= "treeview" >
-    < a
-href = "#" >
-    < i
-class
-= "fa fa-university" > < /i><span>CERCADO DE LIMA</s
-pan >
-< span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-    < li
-class
-= "treeview" >
-    < a
-href = "#" > < i
-class
-= "fa fa-book" > < /i> Asiento Principal
-    < span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-    < li > < a
-href = "dbpanel.php?view=m-pendientes&amp;form=1&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=m-aprobadas&amp;form=2&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=m-incompletos&amp;form=3&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=m-archivadas&amp;form4=&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-< /ul>
-< /li>
-
-< li
-class
-= "treeview"
-style = "height: auto;" >
-    < a
-href = "#" > < i
-class
-= "fa fa-book" > < /i> Asiento Secundario
-    < span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-    < li > < a
-href = "dbpanel.php?view=s-pendientes&amp;form=1&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=s-aprobadas&amp;form=2&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=s-incompletos&amp;form=3&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=s-archivadas&amp;form4=&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-< /ul>
-< /li>
-
-< li
-class
-= "treeview menu-open"
-style = "height: auto;" >
-    < a
-href = "dbpanel.php?view=a-solicitudes&amp;form=1&amp;pos=4" > < i
-class
-= "fa fa-book" > < /i> Todas las solicitudes
-    < /a>
-    < /li>
+        });
 
 
-    < /ul>
-    < /li>
+    });
 
-    < li
-class
-= "treeview"
-style = "height: auto;" >
-    < a
-href = "#" >
-    < i
-class
-= "fa fa-share" > < /i><span>INTERDISTRITALES</s
-pan >
-< span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-
-    < li
-class
-= "treeview menu-open"
-style = "height: auto;" >
-    < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i> Asiento Principal
-    < span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-    < li > < a
-href = "dbpanel.php?view=sd-pendientes&amp;form=1&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=sd-aprobadas&amp;form=2&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=sd-incompletos&amp;form=3&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-< li > < a
-href = "dbpanel.php?view=sd-archivadas&amp;form=4&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-< /ul>
-< /li>
-
-< li
-class
-= "treeview menu-open"
-style = "height: auto;" >
-    < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i> Asiento Secundario
-    < span
-class
-= "pull-right-container" >
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-    < /span>
-    < /a>
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-    < li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-< /ul>
-< /li>
-
-< /ul>
-< /li>
-
-< li
-class
-= "treeview"
-style = "height: auto;" >
-
-    < a
-href = "#" >
-
-    < i
-class
-= "fa fa-share" > < /i><span>INTERDISTRITALES</s
-pan >
-
-< span
-class
-= "pull-right-container" >
-
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-
-    < /span>
-
-    < /a>
-
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-
-
-    < li
-class
-= "treeview menu-open"
-style = "height: auto;" >
-
-    < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i> Asiento Principal
-
-    < span
-class
-= "pull-right-container" >
-
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-
-    < /span>
-
-    < /a>
-
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-
-    < li > < a
-href = "dbpanel.php?view=sd-pendientes&amp;form=1&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-
-< li > < a
-href = "dbpanel.php?view=sd-aprobadas&amp;form=2&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-
-< li > < a
-href = "dbpanel.php?view=sd-incompletos&amp;form=3&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-
-< li > < a
-href = "dbpanel.php?view=sd-archivadas&amp;form=4&amp;pos=4" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-
-< /ul>
-
-< /li>
-
-
-< li
-class
-= "treeview menu-open"
-style = "height: auto;" >
-
-    < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i> Asiento Secundario
-
-    < span
-class
-= "pull-right-container" >
-
-    < i
-class
-= "fa fa-angle-left pull-right" > < /i>
-
-    < /span>
-
-    < /a>
-
-    < ul
-class
-= "treeview-menu"
-style = "display: block;" >
-
-    < li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Pendientes</
-a > < /li>
-
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Aprobadas</
-a > < /li>
-
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Incompletas</
-a > < /li>
-
-< li > < a
-href = "#" > < i
-class
-= "fa fa-circle-o" > < /i>Archivadas</
-a > < /li>
-
-< /ul>
-
-< /li>
-
-
-< /ul>
-
-< /li>
-
-
-< /ul>
-
-< /section>
+})(jQuery);

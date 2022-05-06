@@ -35,10 +35,6 @@ $container['view'] = function ($container){
         $container->request->getUri()
     ));
 
-    $view->getEnvironment()->addGlobal('OllasController', [
-        'ollas' => $container->OllasController->getOllas(),
-    ]);
-
     $view->getEnvironment()->addGlobal('AdminController', [
         'admin' => $container->AdminController->admin(),
     ]);
@@ -49,10 +45,6 @@ $container['view'] = function ($container){
 
 $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
-};
-
-$container['OllasController'] = function ($container) {
-    return new \App\Controllers\OllasController($container);
 };
 
 $container['AdminController'] = function ($container) {

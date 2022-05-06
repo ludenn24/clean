@@ -10,12 +10,13 @@ class Entrada extends Model
 
     protected $fillable = [
         'codigo',
-        'categoria',
-        'principal',
-        'titulo',
-        'detalle',
-        'detallecorto',
-        'foto',
+        'nombre',
+        'apellidos',
+        'telefono',
+        'correo',
+        'servicio',
         'estado',
+        'created_at',
+        'updated_at'
     ];
 }
